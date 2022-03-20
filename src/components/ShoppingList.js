@@ -3,9 +3,9 @@ import ItemForm from './ItemForm';
 import Filter from './Filter';
 import Item from './Item';
 
-function ShoppingList({ items, updateItems }) {
+function ShoppingList({ items, onItemFormSubmit }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('Search...');
+  const [searchQuery, setSearchQuery] = useState('');
   const [itemName, setItemName] = useState('');
   const [itemCategory, setItemCategory] = useState('Produce');
 
@@ -15,20 +15,12 @@ function ShoppingList({ items, updateItems }) {
 
   const itemsToDisplay = items
     .filter((item) => {
-      if (searchQuery === 'Search...' || searchQuery === '') {
-        return true;
-      } else {
-        return item.name.toLowerCase().includes(searchQuery.toLowerCase());
-      }
-    })
-    .filter((item) => {
       if (selectedCategory === 'All') return true;
       return item.category === selectedCategory;
-    });
-
-  function onItemFormSubmit(newItem) {
-    updateItems(newItem);
-  }
+    })
+    .filter((item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <div className="ShoppingList">
@@ -41,7 +33,7 @@ function ShoppingList({ items, updateItems }) {
       />
       <Filter
         onCategoryChange={handleCategoryChange}
-        searchQuery={searchQuery}
+        search={searchQuery}
         onSearchChange={setSearchQuery}
       />
       <ul className="Items">

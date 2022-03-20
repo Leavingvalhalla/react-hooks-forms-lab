@@ -12,13 +12,14 @@ function App() {
   }
 
   function updateItems(newItem) {
+    console.log(newItem);
     setItems([...items, newItem]);
   }
 
   return (
     <div className={'App ' + (isDarkMode ? 'dark' : 'light')}>
       <Header isDarkMode={isDarkMode} onDarkModeClick={handleDarkModeClick} />
-      <ShoppingList items={items} updateItems={updateItems} />
+      <ShoppingList items={items} onItemFormSubmit={updateItems} />
     </div>
   );
 }
